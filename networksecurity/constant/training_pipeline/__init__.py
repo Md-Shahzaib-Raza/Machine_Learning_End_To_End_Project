@@ -8,7 +8,7 @@ import pandas as pd
 defining comman constant variables for training pipeline
 '''
 
-TARGET_COLUMN: str = "RESULT"
+TARGET_COLUMN: str = "Result"
 PIPELINE_NAME: str = "NetworkSecurity"
 ARTIFACT_DIR: str = "ArtifactS"
 FILE_NAME: str = "phisingData.csv"
@@ -36,3 +36,18 @@ DATA_VALIDATION_VALID_DIR: str = "validated"
 DATA_VALIDATION_INVALID_DIR: str = "invalid"
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
 DATA_VALIDATION_DRIFT_REPORT_FILE_NAME: str = "report.yaml"
+PREPROCESSING_OBJECT_FILE_NAME: str = "preprocessor.pkl"
+
+'''
+Data Transformation related constant start with DATA_TRANSFORMATION_VARIABLE_NAME
+'''
+DATA_TRANSFORMATION_DIR_NAME: str = "data_transformation"
+DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR: str = "transformed"
+DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR: str = "transformed_object"
+
+# KNN Imputer to replace missing values with nearest neighbors
+DATA_TRANSFORMATION_IMPUTER_PARAMS: dict = {
+    "missing_values" : np.nan,
+    "n_neighbors" : 3,
+    "weights" : "uniform",
+}
