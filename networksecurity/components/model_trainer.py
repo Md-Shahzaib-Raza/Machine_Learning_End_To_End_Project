@@ -23,6 +23,12 @@ from sklearn.ensemble import (
 )
 import mlflow
 
+import dagshub
+dagshub.init(repo_owner='Md-Shahzaib-Raza', repo_name='Machine_Learning_End_To_End_Project', mlflow=True)
+
+
+
+
 class ModelTrainer:
     def __init__(
         self, model_trainer_config:ModelTrainerConfig,
@@ -103,6 +109,8 @@ class ModelTrainer:
 
         Network_Model = NetworkModel(preprocessor,best_model)
         save_object(self.model_trainer_config.trained_model_file_path,obj=Network_Model)
+
+        save_object("final_model/model.pkl",best_model)
 
         # Model Trainer Artifact
         model_trainer_artifact = ModelTrainerArtifact(
