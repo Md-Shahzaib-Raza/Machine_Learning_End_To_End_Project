@@ -24,7 +24,20 @@ from sklearn.ensemble import (
 import mlflow
 
 import dagshub
-dagshub.init(repo_owner='Md-Shahzaib-Raza', repo_name='Machine_Learning_End_To_End_Project', mlflow=True)
+# Only initialize dagshub when explicitly enabled via env var to avoid
+# interactive OAuth during container/startup. Set DAGSHUB_ENABLE=true
+# in the environment to enable automatic dagshub initialization.
+try:
+    if os.getenv("DAGSHUB_ENABLE", "false").lower() in ("1", "true", "yes"):
+        try:
+            dagshub.init(repo_owner='Md-Shahzaib-Raza', repo_name='Machine_Learning_End_To_End_Project', mlflow=True)
+        except Exception as e:
+            logging.warning(f"dagshub.init failed or returned error: {e}")
+    else:
+        logging.info("DAGSHUB_ENABLE not set; skipping dagshub.init to avoid interactive auth.")
+except Exception:
+    # Defensive: ensure any unexpected error here doesn't prevent app startup
+    logging.warning("Unexpected error while checking DAGSHUB_ENABLE; skipping dagshub.init.")
 
 
 
