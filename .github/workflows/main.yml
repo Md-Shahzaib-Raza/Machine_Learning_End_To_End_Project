@@ -75,6 +75,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
+      - name: Debug ECR Info
+        run: |
+          echo "ECR Login URI: ${{secrets.AWS_ECR_LOGIN_URI}}"
+          echo "ECR Repository: ${{ secrets.ECR_REPOSITORY_NAME }}"
+          echo "Full Image Path: ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
+          aws ecr describe-repositories --repository-names ${{ secrets.ECR_REPOSITORY_NAME }} --region ${{ secrets.AWS_REGION }} || echo "Repository not found"
       
       - name: Pull latest images
         run: |
