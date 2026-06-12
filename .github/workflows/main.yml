@@ -92,7 +92,14 @@ jobs:
 
       - name: Pull latest images
         run: |
-         docker pull ${{ needs.build-and-push-ecr-image.outputs.image }}
+          set -eux
+          IMAGE="${{ needs.build-and-push-ecr-image.outputs.image }}"
+          if [ -z "$IMAGE" ]; then
+            echo "Build job did not provide an image output; falling back to secrets-based image URI"
+            IMAGE="${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
+          fi
+          echo "Pulling image: $IMAGE"
+          docker pull "$IMAGE"
          
       #- name: Stop and remove  container if running
        # run: |
